@@ -1,9 +1,19 @@
+type pair struct {
+    num1, num2 int
+}
+
 func numTrees(n int) int {
+    memo := make(map[pair]int)
     var helper func(int, int) int
 
     helper = func(start, end int) int {
         if start >= end {
             return 1
+        }
+
+        key := pair{start, end}
+        if val, exists := memo[key]; exists {
+            return val
         }
 
         total := 0
@@ -13,6 +23,7 @@ func numTrees(n int) int {
             total += left * right
         }
 
+        memo[key] = total
         return total
     }
     
