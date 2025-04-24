@@ -1,6 +1,6 @@
 func numPairsDivisibleBy60(time []int) int {
-    remainderFreq := make(map[int]int64)
-    var res int64 = 0
+    remainderFreq := make(map[int]int)
+    res := 0
 
     for _, duration := range time {
         remainderFreq[duration % 60] += 1
@@ -16,5 +16,5 @@ func numPairsDivisibleBy60(time []int) int {
         
     }
 
-    return int(res) / 2
+    return res / 2
 }
