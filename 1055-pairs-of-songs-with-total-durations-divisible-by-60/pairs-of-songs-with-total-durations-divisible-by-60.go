@@ -16,5 +16,5 @@ func numPairsDivisibleBy60(time []int) int {
         
     }
 
-    return res / 2
+    return res >> 1
 }
