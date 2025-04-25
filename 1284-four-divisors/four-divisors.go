@@ -14,11 +14,15 @@ func sumFourDivisors(nums []int) int {
             if !isPrime[x] {
                 continue
             }
+
+            if x * x == num {
+                break
+            }
             
             if num % x == 0 {
                 quotient := num / x
                 
-                if quotient != x && (isPrime[quotient] || quotient == x*x) {
+                if isPrime[quotient] || quotient == x*x {
                     res += 1 + x + quotient + num
                     break
                 }
