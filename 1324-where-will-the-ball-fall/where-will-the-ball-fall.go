@@ -11,23 +11,19 @@ func findBall(grid [][]int) []int {
 
 func getBallFallColumn(grid [][]int, ballColumn int) int {
     m, n := len(grid), len(grid[0])
-    r, c := 0, ballColumn
+    row, col := 0, ballColumn
 
-    for r < m {
-        if grid[r][c] == 1 {
-            if c == n - 1 || grid[r][c+1] == -1 {
-                return -1
-            }
-            c += 1
-        } else if grid[r][c] == -1 {
-            if c == 0 || grid[r][c-1] == 1 {
-                return -1
-            }
-            c -= 1
+    for row < m {
+        newCol := col + grid[row][col]
+
+        if newCol < 0 || newCol >= n || grid[row][col] != grid[row][newCol] {
+            col = -1
+            break
         }
 
-        r += 1
+        col = newCol
+        row += 1
     }
 
-    return c
+    return col
 }
