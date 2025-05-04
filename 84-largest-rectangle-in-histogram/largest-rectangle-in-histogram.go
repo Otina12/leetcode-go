@@ -8,20 +8,16 @@ func largestRectangleArea(heights []int) int {
     maxArea := 0
 
     for i, height := range heights {
-        if len(monoStack) > 0 && monoStack[len(monoStack)-1].value >= height {
-            poppedBarStartIndex := -1
+        poppedBarStartIndex := i
 
-            for len(monoStack) > 0 && monoStack[len(monoStack)-1].value >= height {
-                poppedBar := monoStack[len(monoStack)-1]
-                poppedBarStartIndex = poppedBar.index
-                maxArea = max(maxArea, (i - poppedBarStartIndex) * poppedBar.value)
-                monoStack = monoStack[:len(monoStack)-1]
-            }
-
-            monoStack = append(monoStack, pair{poppedBarStartIndex, height})
-        } else {
-            monoStack = append(monoStack, pair{i, height})
+        for len(monoStack) > 0 && monoStack[len(monoStack)-1].value >= height {
+            poppedBar := monoStack[len(monoStack)-1]
+            poppedBarStartIndex = poppedBar.index
+            maxArea = max(maxArea, (i - poppedBarStartIndex) * poppedBar.value)
+            monoStack = monoStack[:len(monoStack)-1]
         }
+
+        monoStack = append(monoStack, pair{poppedBarStartIndex, height})
     }
 
     for len(monoStack) > 0 {
