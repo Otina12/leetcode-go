@@ -12,7 +12,7 @@ func spiralOrder(matrix [][]int) []int {
     curI, curJ := 0, n-1
 
     for {
-        if directionSteps[curDirection] <= 0 {
+        if directionSteps[curDirection] == 0 {
             break
         }
 
