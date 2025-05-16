@@ -16,7 +16,7 @@ func maximumLength(nums []int, k int) int {
                 take := -500
 
                 if j == n {
-                    take = 1 + dp[i+1][i][curK]
+                    take = 1 + dp[i+1][i][0]
                 } else {
                     if nums[i] == nums[j] {
                         take = 1 + dp[i+1][i][curK]
