@@ -1,39 +1,42 @@
 func getWordsInLongestSubsequence(words []string, groups []int) []string {
     n := len(words)
-    dp := make([][]int, n)
-    
-    for i := 0; i < n; i++ {
-        dp[i] = []int{i}
-    }
+    dp := make([]int, n)
+    prev := make([]int, n)
 
     for i := 0; i < n; i++ {
+        dp[i] = 1
+        prev[i] = -1
+
         for j := 0; j < i; j++ {
             if groups[i] == groups[j] || len(words[i]) != len(words[j]) {
                 continue
             }
 
-            if len(dp[j]) >= len(dp[i]) && hammingDistance(words[i], words[j]) == 1  {
-                newSubseq := make([]int, len(dp[j]))
-                copy(newSubseq, dp[j])
-                newSubseq = append(newSubseq, i)
-                dp[i] = newSubseq
+            if dp[j] >= dp[i] && hammingDistance(words[i], words[j]) == 1  {
+                dp[i] = dp[j] + 1
+                prev[i] = j
             }
         }
     }
 
-    maxLen, maxLenIdx := -1, -1
+    maxLen, lastIdx := 0, -1
 
     for i := 0; i < n; i++ {
-        if len(dp[i]) > maxLen {
-            maxLen = len(dp[i])
-            maxLenIdx = i
+        if dp[i] > maxLen {
+            maxLen = dp[i]
+            lastIdx = i
         }
     }
 
-    var res []string
+    var indices []int
+    for lastIdx != -1 {
+        indices = append(indices, lastIdx)
+        lastIdx = prev[lastIdx]
+    }
 
-    for _, wordIdx := range dp[maxLenIdx] {
-        res = append(res, words[wordIdx])
+    var res []string
+    for i := len(indices) - 1; i >= 0; i-- {
+        res = append(res, words[indices[i]])
     }
 
     return res
