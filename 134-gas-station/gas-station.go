@@ -5,7 +5,7 @@ func canCompleteCircuit(gas []int, cost []int) int {
 
     for i <= j {
         totalGas += gas[i] - cost[i]
-        for i <= j && totalGas < 0 {
+        for i < j && totalGas < 0 {
             totalGas += gas[j] - cost[j]
             j -= 1
         }
