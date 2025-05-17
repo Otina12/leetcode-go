@@ -7,33 +7,23 @@
  * }
  */
 
-type MemoKey struct {
-    node *TreeNode
-    robbedPrev bool
-}
-
 func rob(root *TreeNode) int {
-    var memo = make(map[MemoKey]int)
-    var dfs func(*TreeNode, bool) int
+    var dfs func(*TreeNode) (int, int)
 
-    dfs = func(node *TreeNode, robbedPrevious bool) int {
+    dfs = func(node *TreeNode) (int, int) { // returns (rob, notRob)
         if node == nil {
-            return 0
+            return 0, 0
         }
 
-        memoKey := MemoKey{node, robbedPrevious}
-        if val, exists := memo[memoKey]; exists {
-            return val
-        }
+        leftRob, leftNotRob := dfs(node.Left)
+        rightRob, rightNotRob := dfs(node.Right)
 
-        res := dfs(node.Left, false) + dfs(node.Right, false)
-        if !robbedPrevious {
-            res = max(res, node.Val + dfs(node.Left, true) + dfs(node.Right, true))
-        }
+        rob := node.Val + leftNotRob + rightNotRob
+        notRob := max(leftRob, leftNotRob) + max(rightRob, rightNotRob)
         
-        memo[memoKey] = res
-        return res
+        return rob, notRob
     }
 
-    return dfs(root, false)
+    robRoot, notRobRoot := dfs(root)
+    return max(robRoot, notRobRoot)
 }
