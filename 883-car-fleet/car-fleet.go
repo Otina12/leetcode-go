@@ -15,18 +15,16 @@ func carFleet(target int, position []int, speed []int) int {
         return cars[i].Position < cars[j].Position
     })
 
-    timeToReach := make([]float32, n)
-    for i := 0; i < n; i++ {
-        timeToReach[i] = float32(target - cars[i].Position) / float32(cars[i].Speed)
-    }
-
     var monoStack []float32
+
     for i := 0; i < n; i++ {
-        for len(monoStack) > 0 && monoStack[len(monoStack) - 1] <= timeToReach[i] {
+        timeToReach := float32(target - cars[i].Position) / float32(cars[i].Speed)
+
+        for len(monoStack) > 0 && monoStack[len(monoStack) - 1] <= timeToReach {
             monoStack = monoStack[:len(monoStack) - 1]
         }
 
-        monoStack = append(monoStack, timeToReach[i])
+        monoStack = append(monoStack, timeToReach)
     }
 
     return len(monoStack)
