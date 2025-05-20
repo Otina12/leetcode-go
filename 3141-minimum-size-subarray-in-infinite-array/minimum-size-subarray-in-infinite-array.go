@@ -10,10 +10,6 @@ func minSizeSubarray(nums []int, target int) int {
     wholeArrCnt := target / totalSum
     target %= totalSum
 
-    if target == 0 {
-        return n * wholeArrCnt
-    }
-
     copy(nums2, nums)
 
     for i := 0; i < n; i++ {
@@ -26,7 +22,7 @@ func minSizeSubarray(nums []int, target int) int {
     for right, num := range nums2 {
         curWindowSum += num
 
-        for left < right && curWindowSum > target {
+        for left <= right && curWindowSum > target {
             curWindowSum -= nums2[left]
             left += 1
         }
